@@ -1,0 +1,34 @@
+.bg-slot{
+    background-color: white;
+    padding: 0 8px;
+}
+.large-height{
+    height: 82px !important;
+}
+.medium-height{
+    height: 55px !important;
+}
+.small-height{
+    height: 27px !important;
+}
+.side-height{
+    height: 189px !important;
+}
+.slot-button{
+    background: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    color: black;
+}
+.l-size{
+    height: 50px;
+}
+.m-size{
+    height: 30px;
+}
+.s-size{
+    height: 20px;
+}
+.side-carImg{
+    margin-right: 10px;
+}

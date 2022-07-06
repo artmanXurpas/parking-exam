@@ -1,0 +1,31 @@
+.parkModal {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    background: white;
+    width: 35%;
+    min-height: 30vh;
+    z-index: 999;
+    display: flex;
+    padding: 20px;
+    box-shadow: 2px 5px;
+  }
+  .parking-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
+  }
+  .form-field {
+    margin: 10px 0 10px 0;
+    padding: 15px;
+    font-size: 16px;
+    border: 0;
+    font-family: "Roboto", sans-serif;
+  }
+  .gap-2{
+    gap: 0.5rem;
+  }
+  .img{
+    height: 70px;
+  }
