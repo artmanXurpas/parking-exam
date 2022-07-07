@@ -26,12 +26,12 @@ const Entry = (props) => {
         size: plate.carSize,
         fee: plate.fee,
       });
-      setSizeCheck(true)
+      setSizeCheck(true);
     } else {
       setCarPark({ ...carPark, plateNo: event.target.value });
-      setSizeCheck(false)
+      setSizeCheck(false);
     }
-    console.log(plate, diffMin)
+    console.log(plate, diffMin);
   };
   const handleSize = (event) => {
     if (event.target.value !== 0)
@@ -98,42 +98,45 @@ const Entry = (props) => {
     let findSlot = sortDist.find(
       (o) => !o.isParked && carPark.size <= o.size && o.dist >= 1.1
     );
-    console.log(sortDist);
-    fetch(`http://localhost:8000/slot/${findSlot.id}`, {
-      method: "PATCH",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        isParked: true,
-        id: findSlot.id,
-      }),
-    })
-      .then((res) => {
-        return res.json();
+    if (findSlot === undefined) {
+      alert("No more slots available");
+    } else {
+      fetch(`http://localhost:8000/slot/${findSlot.id}`, {
+        method: "PATCH",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          isParked: true,
+          id: findSlot.id,
+        }),
       })
-      .then(() => {
-        console.log(`SLOT UPDATED!`);
+        .then((res) => {
+          return res.json();
+        })
+        .then(() => {
+          console.log(`SLOT UPDATED!`);
+        });
+      const newPark = {
+        entry: entry.entry,
+        plateNo: carPark.plateNo,
+        area: findSlot.area,
+        code: findSlot.code,
+        // distance: findSlot.dist,
+        size: findSlot.size,
+        carSize: parseInt(carPark.size),
+        isoDate: moment().toISOString(),
+        date: moment().format("YYYY-MM-DD"),
+        time: moment().format("LTS"),
+        fee: carPark.fee,
+      };
+      fetch(`http://localhost:8000/park`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(newPark),
+      }).then(() => {
+        window.location.reload(false);
+        console.log("OK");
       });
-    const newPark = {
-      entry: entry.entry,
-      plateNo: carPark.plateNo,
-      area: findSlot.area,
-      code: findSlot.code,
-      // distance: findSlot.dist,
-      size: findSlot.size,
-      carSize: parseInt(carPark.size),
-      isoDate: moment().toISOString(),
-      date: moment().format("YYYY-MM-DD"),
-      time: moment().format("LTS"),
-      fee: carPark.fee,
-    };
-    fetch(`http://localhost:8000/park`, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(newPark),
-    }).then(() => {
-      window.location.reload(false);
-      console.log("OK");
-    });
+    }
   };
 
   return (
@@ -161,7 +164,11 @@ const Entry = (props) => {
                     name="plateNumber"
                     onChange={handlePlateNo}
                   />
-                  <select className="form-field" onChange={handleSize} disabled={sizeCheck}>
+                  <select
+                    className="form-field"
+                    onChange={handleSize}
+                    disabled={sizeCheck}
+                  >
                     {" "}
                     <option value={0}>Please select Vehicle Size</option>
                     <option value={1}>Small</option>
@@ -185,41 +192,6 @@ const Entry = (props) => {
               <></>
             )}
           </div>
-          {/* <div className={tabState === 2 ? "tabs active-tabs" : "hide"}>
-              <form className="parking-form">
-                <select className="form-field" onChange={handleRepark}>
-                  {" "}
-                  <option value={0}>Please select Vehicle Size</option>
-                  {repark.map((car, i) => {
-                    let jsx = "";
-                    const parkDate = moment(car.isoDate);
-                    const currentDate = moment().toISOString();
-                    const diffMin = parkDate.diff(currentDate, "minutes");
-                    if (diffMin > -60) {
-                      jsx = (
-                        <>
-                          <option key={i} value={car.plateNo}>
-                            {car.plateNo}
-                          </option>
-                        </>
-                      );
-                    }
-                    return jsx;
-                  })}
-                </select>
-              </form>
-              <div className="d-flex justify-content-evenly w-100">
-                <Button
-                  className="gap-2"
-                  onClick={
-                    carPark.plateNo !== "" && carPark.size !== 0 ? park : null
-                  }
-                >
-                  PARK
-                </Button>
-                <Button onClick={cancelPark}>CANCEL</Button>
-              </div>
-            </div> */}
         </Col>
       </Row>
     </div>
