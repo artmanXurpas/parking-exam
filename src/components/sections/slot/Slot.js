@@ -23,14 +23,14 @@ const Slot = (props) => {
     setCheckPark(false);
   };
   React.useEffect(() => {
-    fetch("http://localhost:8000/park")
+    fetch("http://localhost:3500/park")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setViewPark(data);
       });
-    fetch("http://localhost:8000/slot")
+    fetch("http://localhost:3500/slot")
       .then((res) => {
         return res.json();
       })
@@ -51,7 +51,7 @@ const Slot = (props) => {
           if (slots.area === slot.slot) {
             jsx = (
               <Col
-                xs={slots.size}
+                xs={slots.size*2}
                 className="d-flex justify-content-center align-items-center side-height px-1"
                 key={i}
               >

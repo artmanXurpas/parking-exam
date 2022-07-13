@@ -15,7 +15,6 @@
     background: gray;
     color: black
 }
-.mid-entry{
-    width: 40%;
-    height: 70% !important;
+.open-area{
+    height: 150px !important;
 }

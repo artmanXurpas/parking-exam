@@ -4,388 +4,276 @@
       "area": "A",
       "code": "1",
       "size": 3,
-      "isParked": true,
-      "dist": 1,
+      "isParked": false,
+      "dist": 1.1,
       "id": 1
     },
     {
       "area": "A",
       "code": "2",
-      "size": 3,
-      "isParked": true,
-      "dist": 1,
+      "size": 2,
+      "isParked": false,
+      "dist": 1.2,
       "id": 2
     },
     {
       "area": "A",
       "code": "3",
-      "size": 2,
+      "size": 1,
       "isParked": false,
-      "dist": 1,
+      "dist": 1.3,
       "id": 3
     },
     {
-      "area": "A",
-      "code": "4",
-      "size": 2,
+      "area": "B",
+      "code": "1",
+      "size": 3,
       "isParked": false,
-      "dist": "",
+      "dist": 2.1,
       "id": 4
     },
     {
-      "area": "A",
-      "code": "5",
-      "size": 1,
+      "area": "B",
+      "code": "2",
+      "size": 2,
       "isParked": false,
-      "dist": "",
+      "dist": 2.2,
       "id": 5
     },
     {
-      "area": "A",
-      "code": "6",
+      "area": "B",
+      "code": "3",
       "size": 1,
       "isParked": false,
-      "dist": "",
+      "dist": 2.3,
       "id": 6
     },
     {
-      "area": "B",
+      "area": "C",
       "code": "1",
       "size": 3,
-      "isParked": true,
-      "dist": 1,
+      "isParked": false,
+      "dist": 1.1,
       "id": 7
     },
     {
-      "area": "B",
+      "area": "C",
       "code": "2",
-      "size": 3,
+      "size": 2,
       "isParked": false,
-      "dist": 1,
+      "dist": 1.2,
       "id": 8
     },
     {
-      "area": "B",
+      "area": "C",
       "code": "3",
-      "size": 2,
+      "size": 1,
       "isParked": false,
-      "dist": 1,
+      "dist": 1.3,
       "id": 9
     },
     {
-      "area": "B",
-      "code": "4",
-      "size": 2,
+      "area": "D",
+      "code": "1",
+      "size": 3,
       "isParked": false,
-      "dist": "",
+      "dist": 2.1,
       "id": 10
     },
     {
-      "area": "B",
-      "code": "5",
-      "size": 1,
+      "area": "D",
+      "code": "2",
+      "size": 2,
       "isParked": false,
-      "dist": "",
+      "dist": 2.2,
       "id": 11
     },
     {
-      "area": "B",
-      "code": "6",
+      "area": "D",
+      "code": "3",
       "size": 1,
       "isParked": false,
-      "dist": "",
+      "dist": 2.3,
       "id": 12
-    },
-    {
-      "area": "C",
-      "code": "1",
-      "size": 3,
-      "isParked": true,
-      "dist": "",
-      "id": 13
-    },
-    {
-      "area": "C",
-      "code": "2",
-      "size": 3,
-      "isParked": false,
-      "dist": "",
-      "id": 14
-    },
-    {
-      "area": "C",
-      "code": "3",
-      "size": 2,
-      "isParked": false,
-      "dist": "",
-      "id": 15
-    },
-    {
-      "area": "C",
-      "code": "4",
-      "size": 2,
-      "isParked": false,
-      "dist": "",
-      "id": 16
-    },
-    {
-      "area": "C",
-      "code": "5",
-      "size": 1,
-      "isParked": false,
-      "dist": "",
-      "id": 17
-    },
-    {
-      "area": "C",
-      "code": "6",
-      "size": 1,
-      "isParked": false,
-      "dist": "",
-      "id": 18
-    },
-    {
-      "area": "D",
-      "code": "1",
-      "size": 3,
-      "isParked": true,
-      "dist": 1,
-      "id": 19
-    },
-    {
-      "area": "D",
-      "code": "2",
-      "size": 3,
-      "isParked": false,
-      "dist": "",
-      "id": 20
-    },
-    {
-      "area": "D",
-      "code": "3",
-      "size": 2,
-      "isParked": false,
-      "dist": "",
-      "id": 21
-    },
-    {
-      "area": "D",
-      "code": "4",
-      "size": 2,
-      "isParked": true,
-      "dist": "",
-      "id": 22
-    },
-    {
-      "area": "D",
-      "code": "5",
-      "size": 1,
-      "isParked": false,
-      "dist": "",
-      "id": 23
-    },
-    {
-      "area": "D",
-      "code": "6",
-      "size": 1,
-      "isParked": true,
-      "dist": "",
-      "id": 24
     }
   ],
   "entry": [
     {
       "entry": "NW",
-      "distance": {
-        "A": 1,
-        "B": 2,
-        "C": 2,
-        "D": 3
-      },
+      "distance": [
+        1.1,
+        1.2,
+        1.3,
+        2.1,
+        2.2,
+        2.3,
+        2.1,
+        2.2,
+        2.3,
+        3.1,
+        3.2,
+        3.3
+      ],
       "isOpen": true,
       "id": 1
     },
     {
       "entry": "NE",
-      "distance": {
-        "A": 2,
-        "B": 1,
-        "C": 3,
-        "D": 2
-      },
+      "distance": [
+        2.3,
+        2.2,
+        2.1,
+        1.3,
+        1.2,
+        1.1,
+        3.3,
+        3.2,
+        3.1,
+        2.3,
+        3.2,
+        2.1
+      ],
       "isOpen": true,
       "id": 2
     },
     {
       "entry": "W",
-      "distance": {
-        "A": 1,
-        "B": 2,
-        "C": 1,
-        "D": 2
-      },
-      "isOpen": true,
+      "distance": [
+        1.1,
+        1.2,
+        1.3,
+        2.1,
+        2.2,
+        2.3,
+        1.1,
+        1.2,
+        1.3,
+        2.1,
+        2.2,
+        2.3
+      ],
+      "isOpen": false,
       "id": 3
     },
     {
       "entry": "M",
-      "distance": {
-        "A": 1,
-        "B": 1,
-        "C": 1,
-        "D": 1
-      },
+      "distance": [
+        1.3,
+        1.2,
+        1.1,
+        1.1,
+        1.2,
+        1.3,
+        1.3,
+        1.2,
+        1.1,
+        1.1,
+        1.2,
+        1.3
+      ],
       "isOpen": true,
       "id": 4
     },
     {
       "entry": "E",
-      "distance": {
-        "A": 2,
-        "B": 1,
-        "C": 2,
-        "D": 1
-      },
+      "distance": [
+        2.3,
+        2.2,
+        2.1,
+        1.3,
+        1.2,
+        1.1,
+        2.3,
+        2.2,
+        2.1,
+        1.3,
+        1.2,
+        1.1
+      ],
       "isOpen": true,
       "id": 5
     },
     {
       "entry": "SW",
-      "distance": {
-        "A": 2,
-        "B": 3,
-        "C": 1,
-        "D": 2
-      },
-      "isOpen": true,
+      "distance": [
+        2.1,
+        2.2,
+        2.3,
+        3.1,
+        3.2,
+        3.3,
+        1.1,
+        1.2,
+        1.3,
+        2.1,
+        2.2,
+        2.3
+      ],
+      "isOpen": false,
       "id": 6
     },
     {
       "entry": "SE",
-      "distance": {
-        "A": 3,
-        "B": 2,
-        "C": 2,
-        "D": 1
-      },
+      "distance": [
+        3.3,
+        3.2,
+        3.1,
+        2.3,
+        2.2,
+        2.1,
+        2.3,
+        2.2,
+        2.1,
+        1.3,
+        1.2,
+        1.1
+      ],
       "isOpen": true,
       "id": 7
+    },
+    {
+      "entry": "New Entry",
+      "distance": [
+        1,
+        1,
+        2,
+        2,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        3,
+        2
+      ],
+      "isOpen": true,
+      "id": 8
     }
   ],
   "park": [
     {
-      "entry": "NW",
-      "plateNo": "hello",
-      "area": "A",
-      "code": "1",
-      "size": 3,
-      "carSize": 2,
-      "isoDate": "2022-07-06T20:39:58.862Z",
-      "date": "2022-06-30",
-      "time": "4:39:58 AM",
-      "fee": 40,
-      "id": 1
-    },
-    {
-      "entry": "NE",
-      "plateNo": "motor",
-      "area": "B",
-      "code": "1",
-      "size": 3,
-      "carSize": 1,
-      "isoDate": "2022-07-01T03:27:01.611Z",
-      "date": "2022-07-01",
-      "time": "11:27:01 AM",
-      "fee": 0,
-      "id": 2
-    },
-    {
-      "entry": "W",
-      "plateNo": "hello",
+      "entry": "SW",
+      "plateNo": "qwe",
       "area": "C",
       "code": "1",
       "size": 3,
-      "carSize": 2,
-      "isoDate": "2022-07-05T19:06:03.207Z",
-      "date": "2022-07-06",
-      "time": "3:06:03 AM",
-      "fee": 0,
-      "id": 3
-    },
-    {
-      "entry": "M",
-      "plateNo": "bigTruck",
-      "area": "A",
-      "code": "2",
-      "size": 3,
-      "carSize": 3,
-      "isoDate": "2022-07-05T19:28:07.174Z",
-      "date": "2022-07-06",
-      "time": "3:28:07 AM",
-      "fee": 0,
-      "id": 4
-    },
-    {
-      "entry": "SE",
-      "plateNo": "sw",
-      "area": "D",
-      "code": "1",
-      "size": 3,
-      "carSize": 3,
-      "isoDate": "2022-07-05T19:40:56.088Z",
-      "date": "2022-07-06",
-      "time": "3:40:56 AM",
-      "fee": 0,
-      "id": 5
-    },
-    {
-      "entry": "SE",
-      "plateNo": "asd",
-      "area": "D",
-      "code": "2",
-      "size": 3,
-      "carSize": 2,
-      "isoDate": "2022-07-05T20:39:58.862Z",
-      "date": "2022-07-06",
-      "time": "4:39:58 AM",
-      "fee": 0,
-      "id": 6
-    },
-    {
-      "entry": "SE",
-      "plateNo": "test1",
-      "area": "D",
-      "code": "6",
-      "size": 1,
       "carSize": 1,
-      "isoDate": "2022-07-06T09:56:40.394Z",
-      "date": "2022-07-06",
-      "time": "5:56:40 PM",
+      "isoDate": "2022-07-12T16:42:27.896Z",
+      "date": "2022-07-13",
+      "time": "12:42:27 AM",
       "fee": 0,
-      "id": 7
-    },
-    {
-      "entry": "SE",
-      "plateNo": "test6",
-      "area": "D",
-      "code": "4",
-      "size": 2,
-      "carSize": 2,
-      "isoDate": "2022-07-06T10:01:52.468Z",
-      "date": "2022-07-06",
-      "time": "6:01:52 PM",
-      "fee": 0,
-      "id": 8
+      "id": 1
     }
   ],
   "reserved": [
     {
-      "plateNo": "asd",
-      "carSize": 2,
-      "isoDate": "2022-07-06T09:16:53.481Z",
-      "date": "2022-07-06",
-      "time": "5:16:53 PM",
-      "fee": 640,
+      "plateNo": "qwe",
+      "carSize": 1,
+      "isoDate": "2022-07-13T00:38:24.584Z",
+      "date": "2022-07-13",
+      "time": "8:38:24 AM",
+      "fee": 140,
       "id": 1
     }
   ]

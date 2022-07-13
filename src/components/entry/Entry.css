@@ -3,7 +3,19 @@
     top: 20%;
     left: 35%;
     background: white;
-    width: 35%;
+    width: auto;
+    min-height: 30vh;
+    z-index: 999;
+    display: flex;
+    padding: 20px;
+    box-shadow: 2px 5px;
+  }
+  .entryModal {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    background: white;
+    width: 50%;
     min-height: 30vh;
     z-index: 999;
     display: flex;

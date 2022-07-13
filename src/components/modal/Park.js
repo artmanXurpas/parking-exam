@@ -24,6 +24,7 @@ const Park = (props) => {
     closeModal();
   };
   const [carUnPark, setCarUnPark] = React.useState(false);
+  const [carReparked, setCarReparked] = React.useState(false);
   const parkDate = moment(park[5]);
   const currentDate = moment().toISOString();
   const diffMin = parkDate.diff(currentDate, "minutes");
@@ -32,7 +33,7 @@ const Park = (props) => {
   const inDayCount = diffMin <= -180 ? Math.ceil(diffMin / -60 - 3) : 0;
   const computeFee = () => {
     let fee = parkInfo.fee;
-    if(fee <= 40) fee = 0;
+    if(fee >= 40) setCarReparked(true)
     if (dayCount !== 0) {
       fee +=
         dayCount * 5000 +
@@ -40,11 +41,11 @@ const Park = (props) => {
           (parkInfo.carSize === 3 ? 100 : parkInfo.carSize === 2 ? 60 : 20);
     } else if (dayCount === 0 && inDayCount !== 0) {
       fee +=
-        40 +
+        (carReparked ? 0 : 40) +
         inDayCount *
           (parkInfo.carSize === 3 ? 100 : parkInfo.carSize === 2 ? 60 : 20);
     } else {
-      fee += 40;
+      fee += (carReparked ? 0 : 40);
     }
     return fee;
   };
@@ -57,7 +58,7 @@ const Park = (props) => {
     fee: computeFee(),
   };
   const unPark = () => {
-    fetch(`http://localhost:8000/slot/${park[0]}`, {
+    fetch(`http://localhost:3500/slot/${park[0]}`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -71,7 +72,7 @@ const Park = (props) => {
         console.log(`SLOT UPDATED!`);
       });
     console.log(newUnPark)
-    fetch(`http://localhost:8000/reserved`, {
+    fetch(`http://localhost:3500/reserved`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(newUnPark),
@@ -107,7 +108,7 @@ const Park = (props) => {
                   {parkInfo.code}
                 </p>
                 <p>
-                  <b>Plate Number:</b> {parkInfo.plateNo}
+                  <b>Plate Number:</b> {parkInfo.plateNo} {carReparked ? '(REPARK)' : ''}
                 </p>
                 <p>
                   <b>Parked at:</b> {park[6]} {park[7]}

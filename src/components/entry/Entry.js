@@ -1,21 +1,29 @@
 import React from "react";
 import "./Entry.css";
 import { Row, Col, Button } from "react-bootstrap";
-import { entryDist } from "../../common/enums";
+import axios from "axios";
 import moment from "moment";
 
 const Entry = (props) => {
-  const { entry, openEntryCount, setCancelPark } = props;
+  const { openEntryCount, setCancelPark } = props;
   const [carPark, setCarPark] = React.useState({
     plateNo: "",
     size: null,
     fee: 0,
   });
   const [slots, setSlots] = React.useState([]);
+  const [entryList, setEntryList] = React.useState([]);
+  const [entry, setEntry] = React.useState({
+    entry: "",
+    distance: [],
+    isOpen: false,
+    id: null,
+  });
   const [repark, setRepark] = React.useState([]);
   const [sizeCheck, setSizeCheck] = React.useState(false);
   const handlePlateNo = (event) => {
-    const plate = repark.find((o) => o.plateNo === event.target.value) || [];
+    const plate =
+      repark.reverse.find((o) => o.plateNo === event.target.value) || [];
     const parkDate = moment(plate.isoDate);
     const currentDate = moment().toISOString();
     const diffMin = parkDate.diff(currentDate, "minutes");
@@ -37,62 +45,79 @@ const Entry = (props) => {
     if (event.target.value !== 0)
       setCarPark({ ...carPark, size: event.target.value });
   };
+  const handleEntry = (event) => {
+    event.preventDefault();
+    const entryName =
+      entryList.find((o) => o.entry === event.target.value) || [];
+    if (event.target.value !== 0) {
+      setEntry({
+        ...entry,
+        entry: entryName.entry,
+        distance: entryName.distance,
+        isOpen: entryName.isOpen,
+        id: entryName.id,
+      });
+    }
+  };
   React.useEffect(() => {
     const fetchSlot = async () => {
-      const data = await fetch("http://localhost:8000/slot").then((res) => {
-        return res.json();
+      await axios.get("http://localhost:3500/slot").then((res) => {
+        setSlots(res.data);
       });
-      const reEnterPark = await fetch("http://localhost:8000/reserved").then(
+      const reEnterPark = await fetch("http://localhost:3500/reserved").then(
         (res) => {
           return res.json();
         }
       );
-      setSlots(data);
+      const chooseEntry = await fetch("http://localhost:3500/entry").then(
+        (res) => {
+          return res.json();
+        }
+      );
       setRepark(reEnterPark);
+      setEntryList(chooseEntry);
     };
     fetchSlot();
-    console.log(carPark);
-  }, [carPark]);
-  const closeEntry = () => {
-    if (openEntryCount <= 3 && entry.isOpen) alert("Cannot close Entry!");
-    else if (!entry.isOpen) {
-      fetch(`http://localhost:8000/entry/${entry.id}`, {
-        method: "PATCH",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          isOpen: true,
-        }),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then(() => {
-          console.log(`ENTRY OPENED!`);
-        });
-    } else {
-      fetch(`http://localhost:8000/entry/${entry.id}`, {
-        method: "PATCH",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          isOpen: false,
-        }),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then(() => {
-          console.log(`ENTRY CLOSED!`);
-        });
-    }
-    window.location.reload(false);
-  };
+  }, []);
+  // const closeEntry = () => {
+  //   if (openEntryCount <= 3 && entry.isOpen) alert("Cannot close Entry!");
+  //   else if (!entry.isOpen) {
+  //     fetch(`http://localhost:3500/entry/${entry.id}`, {
+  //       method: "PATCH",
+  //       headers: { "Content-type": "application/json" },
+  //       body: JSON.stringify({
+  //         isOpen: true,
+  //       }),
+  //     })
+  //       .then((res) => {
+  //         return res.json();
+  //       })
+  //       .then(() => {
+  //         console.log(`ENTRY OPENED!`);
+  //       });
+  //   } else {
+  //     fetch(`http://localhost:3500/entry/${entry.id}`, {
+  //       method: "PATCH",
+  //       headers: { "Content-type": "application/json" },
+  //       body: JSON.stringify({
+  //         isOpen: false,
+  //       }),
+  //     })
+  //       .then((res) => {
+  //         return res.json();
+  //       })
+  //       .then(() => {
+  //         console.log(`ENTRY CLOSED!`);
+  //       });
+  //   }
+  //   window.location.reload(false);
+  // };
   const cancelPark = () => {
     setCancelPark();
   };
   const park = () => {
     const checkDist = slots.map((slot, i) => {
-      const dist = entryDist(entry.entry, slot.area, slot.code, entry.distance);
-      return { ...slot, dist: dist };
+      return { ...slot, dist: entry.distance[i] };
     });
     const sortDist = checkDist.sort((a, b) => a.dist - b.dist);
     let findSlot = sortDist.find(
@@ -101,7 +126,7 @@ const Entry = (props) => {
     if (findSlot === undefined) {
       alert("No more slots available");
     } else {
-      fetch(`http://localhost:8000/slot/${findSlot.id}`, {
+      fetch(`http://localhost:3500/slot/${findSlot.id}`, {
         method: "PATCH",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
@@ -128,7 +153,7 @@ const Entry = (props) => {
         time: moment().format("LTS"),
         fee: carPark.fee,
       };
-      fetch(`http://localhost:8000/park`, {
+      fetch(`http://localhost:3500/park`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(newPark),
@@ -143,54 +168,73 @@ const Entry = (props) => {
     <div className="parkModal">
       <Row>
         <Col xs={8}>
-          <h1>Entry {entry.entry}</h1>
+          <h1>Park a Car</h1>
         </Col>
         <Col xs={4}>
-          <Button
+          {/* <Button
             variant={entry.isOpen ? "danger" : "warning"}
             onClick={closeEntry}
           >
             {entry.isOpen ? "CLOSE ENTRY" : "OPEN ENTRY"}
-          </Button>
+          </Button> */}
         </Col>
         <Col className="d-flex justify-content-center align-items-center flex-column">
           <div>
-            {entry.isOpen ? (
-              <>
-                <form className="parking-form">
-                  <input
-                    className="form-field"
-                    placeholder="Plate No."
-                    name="plateNumber"
-                    onChange={handlePlateNo}
-                  />
-                  <select
-                    className="form-field"
-                    onChange={handleSize}
-                    disabled={sizeCheck}
-                  >
-                    {" "}
-                    <option value={0}>Please select Vehicle Size</option>
-                    <option value={1}>Small</option>
-                    <option value={2}>Medium</option>
-                    <option value={3}>Large</option>
-                  </select>
-                </form>
-                <div className="d-flex justify-content-evenly w-100">
-                  <Button
-                    className="gap-2"
-                    onClick={
-                      carPark.plateNo !== "" && carPark.size !== 0 ? park : null
+            <>
+              <form className="parking-form">
+                <select className="form-field" onChange={handleEntry}>
+                  {" "}
+                  <option value={0}>Please select Entry</option>
+                  {entryList.map((entry, i) => {
+                    let jsx = "";
+                    if (entry.isOpen) {
+                      jsx = (
+                        <>
+                          <option value={entry.entry} key={i}>
+                            {entry.entry}
+                          </option>
+                        </>
+                      );
                     }
-                  >
-                    PARK
-                  </Button>
-                  <Button onClick={cancelPark}>CANCEL</Button>
-                </div>
-              </>
-            ) : (
-              <></>
-            )}
+                    return jsx;
+                  })}
+                </select>
+                <input
+                  className="form-field"
+                  placeholder="Plate No."
+                  name="plateNumber"
+                  onChange={handlePlateNo}
+                />
+                {sizeCheck ? <span>Reparking Vehicle</span> : ''}
+                <select
+                  className="form-field"
+                  onChange={handleSize}
+                  disabled={sizeCheck}
+                >
+                  {" "}
+                  <option value={0}>Please select Vehicle Size</option>
+                  <option value={1}>Small</option>
+                  <option value={2}>Medium</option>
+                  <option value={3}>Large</option>
+                </select>
+              </form>
+              <div className="d-flex justify-content-evenly w-100">
+                <Button
+                  className="gap-2"
+                  onClick={
+                    carPark.plateNo !== "" &&
+                    carPark.size !== 0 &&
+                    entry.entry !== "" &&
+                    openEntryCount >= 3
+                      ? park
+                      : null
+                  }
+                >
+                  PARK
+                </Button>
+                <Button onClick={cancelPark}>CANCEL</Button>
+              </div>
+            </>
           </div>
         </Col>
       </Row>
