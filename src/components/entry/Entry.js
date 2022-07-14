@@ -64,54 +64,50 @@ const Entry = (props) => {
       await axios.get("http://localhost:3500/slot").then((res) => {
         setSlots(res.data);
       });
-      const reEnterPark = await fetch("http://localhost:3500/reserved").then(
+      await axios.get("http://localhost:3500/reserved").then((res) => {
+        setRepark(res.data);
+      });
+      await axios.get("http://localhost:3500/entry").then(
         (res) => {
-          return res.json();
+          setEntryList(res.data);
         }
       );
-      const chooseEntry = await fetch("http://localhost:3500/entry").then(
-        (res) => {
-          return res.json();
-        }
-      );
-      setRepark(reEnterPark);
-      setEntryList(chooseEntry);
     };
     fetchSlot();
   }, []);
-  // const closeEntry = () => {
-  //   if (openEntryCount <= 3 && entry.isOpen) alert("Cannot close Entry!");
-  //   else if (!entry.isOpen) {
-  //     fetch(`http://localhost:3500/entry/${entry.id}`, {
-  //       method: "PATCH",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({
-  //         isOpen: true,
-  //       }),
-  //     })
-  //       .then((res) => {
-  //         return res.json();
-  //       })
-  //       .then(() => {
-  //         console.log(`ENTRY OPENED!`);
-  //       });
-  //   } else {
-  //     fetch(`http://localhost:3500/entry/${entry.id}`, {
-  //       method: "PATCH",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({
-  //         isOpen: false,
-  //       }),
-  //     })
-  //       .then((res) => {
-  //         return res.json();
-  //       })
-  //       .then(() => {
-  //         console.log(`ENTRY CLOSED!`);
-  //       });
-  //   }
-  //   window.location.reload(false);
-  // };
+  const closeEntry = () => {
+    if (openEntryCount <= 3 && entry.isOpen) alert("Cannot close Entry!");
+    else if (!entry.isOpen) {
+      fetch(`http://localhost:3500/entry/${entry.id}`, {
+        method: "PATCH",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          isOpen: true,
+        }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then(() => {
+          console.log(`ENTRY OPENED!`);
+        });
+    } else {
+      fetch(`http://localhost:3500/entry/${entry.id}`, {
+        method: "PATCH",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          isOpen: false,
+        }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then(() => {
+          console.log(`ENTRY CLOSED!`);
+        });
+    }
+    window.location.reload(false);
+  };
   const cancelPark = () => {
     setCancelPark();
   };
@@ -171,12 +167,13 @@ const Entry = (props) => {
           <h1>Park a Car</h1>
         </Col>
         <Col xs={4}>
-          {/* <Button
-            variant={entry.isOpen ? "danger" : "warning"}
+          <Button
+            variant={"danger"}
             onClick={closeEntry}
+            disabled={entry.entry === "" ? true : false}
           >
-            {entry.isOpen ? "CLOSE ENTRY" : "OPEN ENTRY"}
-          </Button> */}
+            CLOSE ENTRY
+          </Button>
         </Col>
         <Col className="d-flex justify-content-center align-items-center flex-column">
           <div>
@@ -205,7 +202,7 @@ const Entry = (props) => {
                   name="plateNumber"
                   onChange={handlePlateNo}
                 />
-                {sizeCheck ? <span>Reparking Vehicle</span> : ''}
+                {sizeCheck ? <span>Reparking Vehicle</span> : ""}
                 <select
                   className="form-field"
                   onChange={handleSize}

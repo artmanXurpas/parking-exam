@@ -8,6 +8,7 @@ const AddEntry = (props) => {
     distance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     isOpen: true,
   });
+  const [existEntry, setExistEntry] = React.useState([]);
   const cancelAdd = () => {
     setCancelAdd();
   };
@@ -16,21 +17,37 @@ const AddEntry = (props) => {
   };
   const updateDist = (event) => {
     const updating = (array, newValue) =>
-      (array[event.target.id] = parseInt(newValue));
+      (array[event.target.id] = parseFloat(newValue));
     const dist = newEntry.distance;
     updating(dist, event.target.value);
     console.log(dist);
     setNewEntry({ ...newEntry, distance: dist });
   };
+  React.useEffect(() => {
+    fetch("http://localhost:3500/park")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setExistEntry(data);
+      });
+  });
   const addNewEntry = () => {
-    fetch(`http://localhost:3500/entry`, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(newEntry),
-    }).then(() => {
-      window.location.reload(false);
-      console.log("OK");
-    });
+    const existingEntry =
+      existEntry.find((o) => newEntry.entry === o.entry) || [];
+    if (existingEntry === []) {
+      fetch(`http://localhost:3500/entry`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(newEntry),
+      }).then(() => {
+        window.location.reload(false);
+        alert("ENTRY ADDED!");
+      });
+    }
+    else{
+      alert('ENTRY ALREADY EXIST');
+    }
   };
   const addWarning = () => {
     alert("Distance for Slot Required!");
