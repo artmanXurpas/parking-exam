@@ -13,7 +13,8 @@ const AddEntry = (props) => {
     setCancelAdd();
   };
   const updateEntry = (event) => {
-    setNewEntry({ ...newEntry, entry: event.target.value });
+    const value = event.target.value
+    setNewEntry({ ...newEntry, entry: value.toUpperCase() });
   };
   const updateDist = (event) => {
     const updating = (array, newValue) =>
@@ -35,7 +36,7 @@ const AddEntry = (props) => {
   const addNewEntry = () => {
     const existingEntry =
       existEntry.find((o) => newEntry.entry === o.entry) || [];
-    if (existingEntry === []) {
+    if (existingEntry.entry === undefined) {
       fetch(`http://localhost:3500/entry`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -46,10 +47,13 @@ const AddEntry = (props) => {
       });
     }
     else{
-      alert('ENTRY ALREADY EXIST');
+      alert('ENTRY ALREADY EXIST!')
     }
   };
   const addWarning = () => {
+    if(newEntry.entry === "")
+    alert("Please Enter Entry");
+    else
     alert("Distance for Slot Required!");
   };
   return (

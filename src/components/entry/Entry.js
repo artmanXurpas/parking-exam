@@ -23,7 +23,7 @@ const Entry = (props) => {
   const [sizeCheck, setSizeCheck] = React.useState(false);
   const handlePlateNo = (event) => {
     const plate =
-      repark.reverse.find((o) => o.plateNo === event.target.value) || [];
+      repark.find((o) => o.plateNo === event.target.value) || [];
     const parkDate = moment(plate.isoDate);
     const currentDate = moment().toISOString();
     const diffMin = parkDate.diff(currentDate, "minutes");
@@ -92,19 +92,7 @@ const Entry = (props) => {
           console.log(`ENTRY OPENED!`);
         });
     } else {
-      fetch(`http://localhost:3500/entry/${entry.id}`, {
-        method: "PATCH",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          isOpen: false,
-        }),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then(() => {
-          console.log(`ENTRY CLOSED!`);
-        });
+      axios.delete(`http://localhost:3500/entry/${entry.id}`)
     }
     window.location.reload(false);
   };
@@ -157,6 +145,11 @@ const Entry = (props) => {
         window.location.reload(false);
         console.log("OK");
       });
+      const reparked =
+      repark.find((o) => o.plateNo === carPark.plateNo) || [];
+      if(reparked !== []){
+        axios.delete(`http://localhost:3500/reserved/${reparked.id}`)
+      }
     }
   };
 

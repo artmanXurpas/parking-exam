@@ -23,8 +23,8 @@ const Park = (props) => {
   const close = () => {
     closeModal();
   };
+  const [carReparked, setCarReparked] = React.useState(false)
   const [carUnPark, setCarUnPark] = React.useState(false);
-  const [carReparked, setCarReparked] = React.useState(false);
   const parkDate = moment(park[5]);
   const currentDate = moment().toISOString();
   const diffMin = parkDate.diff(currentDate, "minutes");
@@ -33,15 +33,14 @@ const Park = (props) => {
   const inDayCount = diffMin <= -180 ? Math.ceil(diffMin / -60 - 3) : 0;
   const computeFee = () => {
     let fee = parkInfo.fee;
-    if(fee >= 40) setCarReparked(true)
+    if(fee >= 40)
     if (dayCount !== 0) {
       fee +=
         dayCount * 5000 +
         overMinCount *
           (parkInfo.carSize === 3 ? 100 : parkInfo.carSize === 2 ? 60 : 20);
     } else if (dayCount === 0 && inDayCount !== 0) {
-      fee +=
-        (carReparked ? 0 : 40) +
+      fee += (carReparked ? 0 : 40) +
         inDayCount *
           (parkInfo.carSize === 3 ? 100 : parkInfo.carSize === 2 ? 60 : 20);
     } else {
@@ -82,6 +81,11 @@ const Park = (props) => {
     });
     setCarUnPark(true);
   };
+  React.useEffect(() => {
+    if(parkInfo.fee >=40){
+      setCarReparked(true)
+    }
+  },[parkInfo.fee])
   return (
     <div ref={ref} className="parkModal">
       <Container>
@@ -108,7 +112,7 @@ const Park = (props) => {
                   {parkInfo.code}
                 </p>
                 <p>
-                  <b>Plate Number:</b> {parkInfo.plateNo} {carReparked ? '(REPARK)' : ''}
+                  <b>Plate Number:</b> {parkInfo.plateNo} {carReparked ? '(REPARK)': ''}
                 </p>
                 <p>
                   <b>Parked at:</b> {park[6]} {park[7]}
